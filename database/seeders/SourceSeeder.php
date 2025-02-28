@@ -14,7 +14,7 @@ class SourceSeeder extends Seeder
     const SOURCES = [
 
         'new-york-times',
-        'bbc-news',
+        'newsapi',
         'guardian',
     ];
 

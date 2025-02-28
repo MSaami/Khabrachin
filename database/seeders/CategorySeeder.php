@@ -12,10 +12,10 @@ class CategorySeeder extends Seeder
      */
 
     const CATEGORIES_NAME = [
-        'Sports',
-        'Arts',
-        'Entertainment',
-        'Politics',
+        'sport',
+        'arts',
+        'entertainment',
+        'politics',
     ];
 
 
