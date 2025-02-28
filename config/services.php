@@ -35,4 +35,24 @@ return [
         ],
     ],
 
+    'fetch_service' => [
+        'providers' => [
+            'guardian' => [
+                'api_key' => env('GUARDIAN_API_KEY'),
+                'url' => env('GUARDIAN_API_URL'),
+                'name' => 'guardian',
+            ],
+            'newsapi' => [
+                'api_key' => env('NEWSAPI_API_KEY'),
+                'url' => env('NEWSAPI_API_URL'),
+                'name' => 'newsapi',
+            ],
+            'new-york-times' => [
+                'api_key' => env('NEW_YORK_TIMES_API_KEY'),
+                'url' => env('NEW_YORK_TIMES_API_URL'),
+                'name' => 'new-york-times',
+            ],
+        ],
+    ],
+
 ];
