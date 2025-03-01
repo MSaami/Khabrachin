@@ -105,6 +105,9 @@ The project has two abstract main component:
 #### FetchService
 it's a service written in StrategyPattern in which there is a parent class that in charge of execute the strategy which is given like GuardianFetchService which is concrete service to fetch data from Guardian, then store it in database using `newsRepository`
 
+![strategypattern](https://github.com/user-attachments/assets/b267a2a1-16fe-40a8-9d0a-5034ae5571bc)
+
+
 
 #### QueryService
 it's another part of our application which is reponsible for read data from database and return to users.
@@ -112,7 +115,6 @@ it's another part of our application which is reponsible for read data from data
 
 ![Khabrchin Fetch Flow](https://github.com/user-attachments/assets/51647324-9840-4361-8508-8574719c4d43)
 
-![strategypattern](https://github.com/user-attachments/assets/b267a2a1-16fe-40a8-9d0a-5034ae5571bc)
 
 
 ## TODO
