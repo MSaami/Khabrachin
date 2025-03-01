@@ -110,6 +110,11 @@ it's a service written in StrategyPattern in which there is a parent class that 
 it's another part of our application which is reponsible for read data from database and return to users.
 
 
+![Khabrchin Fetch Flow](https://github.com/user-attachments/assets/51647324-9840-4361-8508-8574719c4d43)
+
+![strategypattern](https://github.com/user-attachments/assets/b267a2a1-16fe-40a8-9d0a-5034ae5571bc)
+
+
 ## TODO
 - Adding pagination to getting all of the news from providers 
 
