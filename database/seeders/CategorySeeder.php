@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {
@@ -15,14 +15,15 @@ class CategorySeeder extends Seeder
         'sport',
         'arts',
         'entertainment',
-        'politics',
+        'world',
+        'technology'
     ];
 
 
     public function run(): void
     {
         foreach (self::CATEGORIES_NAME as $name) {
-            DB::table('categories')->insert([
+            Category::firstOrCreate([
                 'name' => $name
             ]);
         }
