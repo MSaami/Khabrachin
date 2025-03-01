@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 512);
             $table->string('provider_id');
             $table->foreignIdFor(\App\Models\Category::class)->constrained();
-            $table->foreignIdFor(\App\Models\Source::class)->constrained();
+            $table->char('source', '20');
             $table->string('url', 2048);
             $table->timestamp('published_at');
             $table->timestamps();
@@ -24,7 +24,8 @@ return new class extends Migration
 
             //define full text index to search more efficient
             $table->fullText('title');
-            $table->unique(['source_id', 'provider_id']);
+            $table->fullText('source');
+            $table->unique(['source', 'provider_id']);
         });
     }
 

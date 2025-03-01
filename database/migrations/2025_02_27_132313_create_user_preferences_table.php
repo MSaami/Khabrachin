@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
             $table->json('category_ids')->nullable();
-            $table->json('source_ids')->nullable();
+            $table->json('sources')->nullable();
             $table->timestamps();
         });
     }
