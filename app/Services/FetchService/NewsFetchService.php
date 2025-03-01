@@ -4,33 +4,39 @@
 namespace App\Services\FetchService;
 
 use App\Models\Category;
+use App\Repositories\NewsRepository;
 use App\Services\FetchService\DTO\FetchRequestDTO;
 use Carbon\Carbon;
 
 class NewsFetchService
 {
-    private INewsProvider $provider;
-
-    public function __construct(INewsProvider $provider)
-    {
-        $this->provider = $provider;
+    private NewsRepository $newsRepository;
+    public function __construct(
+        private INewsProvider $provider,
+    ) {
+        $this->newsRepository = resolve(NewsRepository::class);
     }
 
     public function execute()
     {
+        foreach ($this->allCategories() as $category) {
+            $dto = new FetchRequestDTO();
+            $dto->from_date_time = $this->getLastFetchTime($category);
+            $dto->category_name = $category->name;
+            $data = $this->provider->fetch($dto);
+            $this->newsRepository->store($category, $data);
+        }
+    }
 
-        $dto = new FetchRequestDTO();
-        $dto->from_date_time = Carbon::now()->subHours(24);
-        $dto->category_name = 'sport';
+    private function allCategories()
+    {
+        return Category::all();
+    }
 
-        $data = $this->provider->fetch($dto);
+    private function getLastFetchTime(Category $category)
+    {
+        $lastNews = $this->newsRepository->getLastNewsByCategoryAndSource($category->id, $this->provider->config['name']);
 
-        $category = Category::where('name', $dto->category_name)->first();
-
-        $data = array_map(function ($item) {
-            return $item->getArray();
-        }, $data);
-
-        $category->news()->createMany($data);
+        return $lastNews?->published_at ??  Carbon::now()->subHours(24);
     }
 }
