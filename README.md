@@ -37,9 +37,12 @@ docker-compose exec -it app php artisan news:fetch
 ```
 - (optional) If you want to get a user token without login process you can run: 
 ```shell
-docker-compose exec -it php artisan db:seed --class=ExampleUserSeeder
+docker-compose exec -it app php artisan db:seed --class=ExampleUserSeeder
 ```
 - open `localhost:9000` in your browser and you should face with Laravel index page.
+
+## Montoring
+To monitor our system we have a tools named Telescope which you can access it thorough `localhost:9000/telescope
 
 
 ## APIs
@@ -52,7 +55,7 @@ curl --location 'http://localhost:9000/api/v1/news' \
 
 - Fetch News With Filters
 ```curl
-curl --location 'http://localhost:9000/api/v1/news?categories=1,2&sources=2,3&page=1&search=Apple&date_from=2025-02-25&date_to=2025-02-28' \
+curl --location 'http://localhost:9000/api/v1/news?categories=1,2&sources=guardian,newsapi&page=1&search=Apple&date_from=2025-02-25&date_to=2025-02-28' \
 --header 'Accept: application/json' \
 --header 'Authorization: Bearer {token}' \
 ```
@@ -119,5 +122,7 @@ it's another part of our application which is reponsible for read data from data
 
 ## TODO
 - Adding pagination to getting all of the news from providers 
+- Implement better mechanisem to prevent store duplication, currently we are using unique constrained and insertOrIgnore method which ignores all exceptions.
+- Add elasticsearch to serve data for user since we have full text search
 
 
