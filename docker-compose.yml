@@ -6,9 +6,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: laravel-app
+    container_name: khabarchin-app
     ports:
-      - "8000:8000"
+      - "9000:8000"
     volumes:
       - .:/var/www/html
     networks:
@@ -26,14 +26,14 @@ services:
   # MySQL 8 Service
   mysql:
     image: mysql:8
-    container_name: laravel-mysql
+    container_name: khabarchin-mysql
     environment:
       MYSQL_ROOT_PASSWORD: teeeteetet
       MYSQL_DATABASE: laravel
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     ports:
-      - "3306:3306"
+      - "13306:3306"
     networks:
       - app-network
     volumes:
