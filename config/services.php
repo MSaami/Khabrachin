@@ -38,18 +38,18 @@ return [
     'fetch_service' => [
         'providers' => [
             'guardian' => [
-                'api_key' => env('GUARDIAN_API_KEY'),
-                'url' => env('GUARDIAN_API_URL'),
+                'api_key' => env('GUARDIAN_API_KEY', '11bf90b3-4c5d-43c8-8883-6692c2ffd72c'),
+                'url' => env('GUARDIAN_API_URL', 'http://content.guardianapis.com/search'),
                 'name' => 'guardian',
             ],
             'newsapi' => [
-                'api_key' => env('NEWSAPI_API_KEY'),
-                'url' => env('NEWSAPI_API_URL'),
+                'api_key' => env('NEWSAPI_API_KEY', 'a079d49b-212d-4fa0-80d0-ad1e82efb9ca'),
+                'url' => env('NEWSAPI_API_URL', 'https://eventregistry.org/api/v1/article/getArticles'),
                 'name' => 'newsapi',
             ],
             'new-york-times' => [
-                'api_key' => env('NEW_YORK_TIMES_API_KEY'),
-                'url' => env('NEW_YORK_TIMES_API_URL'),
+                'api_key' => env('NEW_YORK_TIMES_API_KEY', 'qvkdA0vbQm1ts4TKgm2GcUDiVuZnNlXG'),
+                'url' => env('NEW_YORK_TIMES_API_URL', 'https://api.nytimes.com/svc/search/v2/articlesearch.json'),
                 'name' => 'new-york-times',
             ],
         ],

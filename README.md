@@ -23,9 +23,17 @@ The project gatters some couple of news sites.
  ```shell
 docker-compose up -d
 ```
+
+- generate the key:
+```shell
+docker-compose exec -it app cp .env.example .env
+docker-compose exec -it app php artisan key:generate
+```
+
+
 - run the migration to create tables:
 ```shell 
-docker-compose exec -it app php artisan db:migrate
+docker-compose exec -it app php artisan migrate
 ```
 - run seeders to have fake data:
  ```shell
@@ -50,14 +58,14 @@ To monitor our system we have a tools named Telescope which you can access it th
 ```curl
 curl --location 'http://localhost:9000/api/v1/news' \
 --header 'Accept: application/json' \
---header 'Authorization: Bearer {token}' \
+--header 'Authorization: Bearer {token}'
 ```
 
 - Fetch News With Filters
 ```curl
 curl --location 'http://localhost:9000/api/v1/news?categories=1,2&sources=guardian,newsapi&page=1&search=Apple&date_from=2025-02-25&date_to=2025-02-28' \
 --header 'Accept: application/json' \
---header 'Authorization: Bearer {token}' \
+--header 'Authorization: Bearer {token}'
 ```
 
 - Register (it returns the token)
@@ -88,7 +96,7 @@ curl --location 'http://localhost:9000/api/v1/login' \
 - User Profile
 ```curl
 curl --location 'http://localhost:9000/api/v1/user' \
---header 'Authorization: Bearer {token}' \
+--header 'Authorization: Bearer {token}'
 ```
 
 ## Test

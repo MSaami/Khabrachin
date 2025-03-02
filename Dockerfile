@@ -20,11 +20,13 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug
 # Install Composer (PHP package manager)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+
 # Set the working directory inside the container
 WORKDIR /var/www/html
+
 
 # Expose port 8000 for Laravel's built-in server
 EXPOSE 8000
 
 # Run the Laravel built-in server
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD ["sh", "-c", "composer install && php artisan serve --host=0.0.0.0 --port=8000"]
