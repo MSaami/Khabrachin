@@ -1,83 +1,99 @@
 # Khabarchin
 
+## Overview
+Khabarchin is a news aggregation service that gathers articles from multiple news sources and provides structured access to the latest news.
 
-## About
-The project gatters some couple of news sites.
+## Tech Stack
+- **Docker Compose** (v3.8)
+- **PHP** (v8.3)
+- **Laravel** (v12)
+- **MySQL** (v8)
 
+## Installation Guide
+### Prerequisites
+Ensure you have the following installed on your system:
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Stack
-`Docker-Compose 3.8`
+### Setup
+1. Clone the repository:
+   ```shell
+   git clone https://github.com/your-repo/khabarchin.git
+   cd khabarchin
+   ```
 
-`PHP 8.3`
+2. Start the Docker containers:
+   ```shell
+   docker-compose up -d
+   ```
 
-`Laravel 12`
+3. Generate the application key:
+   ```shell
+   docker-compose exec -it app cp .env.example .env
+   docker-compose exec -it app php artisan key:generate
+   ```
 
-`Mysql 8`
+4. Run database migrations:
+   ```shell
+   docker-compose exec -it app php artisan migrate
+   ```
 
+5. Seed the database with sample data:
+   ```shell
+   docker-compose exec -it app php artisan db:seed
+   ```
 
-## How To Install 
-- Install [Docker](https://www.docker.com/)
-- Install [Docker-Compose](https://docs.docker.com/compose/install/)
-- Clone the project.
-- up the containers:
- ```shell
-docker-compose up -d
-```
+6. Fetch news from providers (this may take up to a minute due to rate-limiting bypass mechanisms):
+   ```shell
+   docker-compose exec -it app php artisan news:fetch
+   ```
 
-- generate the key:
-```shell
-docker-compose exec -it app cp .env.example .env
-docker-compose exec -it app php artisan key:generate
-```
+7. (Optional) Generate a test user token:
+   ```shell
+   docker-compose exec -it app php artisan db:seed --class=ExampleUserSeeder
+   ```
 
+8. Open `http://localhost:9000` in your browser to access the application.
 
-- run the migration to create tables:
-```shell 
-docker-compose exec -it app php artisan migrate
-```
-- run seeders to have fake data:
- ```shell
- docker-compose exec -it app php artisan db:seed
- ```
-- fetch news from providers (it can take one minute due to bypassing rate limit): 
-```shell
-docker-compose exec -it app php artisan news:fetch
-```
-- (optional) If you want to get a user token without login process you can run: 
-```shell
-docker-compose exec -it app php artisan db:seed --class=ExampleUserSeeder
-```
-- open `localhost:9000` in your browser and you should face with Laravel index page.
 
 
 
 ## Update News Frequently
 
+To ensure news updates regularly, a scheduled job runs every ten minutes, pushing a separate job for each provider to the queue to fetch new articles.
+
+To activate the scheduler and process the queued jobs, run the following commands:
+
+you can change the configs in `console.php`
+
+```shell
+docker-compose exec -it app php artisan schedule:work
+docker-compose exec -it app php artisan queue:work
+```
 
 
 
+## Monitoring
+The system includes Laravel Telescope for debugging and monitoring. You can access it at:
+- `http://localhost:9000/telescope`
 
-## Montoring
-To monitor our system we have a tools named Telescope which you can access it thorough `localhost:9000/telescope`
-
-
-## APIs
-- Fetch News
-```curl
+## API Endpoints
+### Fetch News
+```shell
 curl --location 'http://localhost:9000/api/v1/news' \
 --header 'Accept: application/json' \
 --header 'Authorization: Bearer {token}'
 ```
 
-- Fetch News With Filters
-```curl
+### Fetch News with Filters
+```shell
 curl --location 'http://localhost:9000/api/v1/news?categories=1,2&sources=guardian,newsapi&page=1&search=Apple&date_from=2025-02-25&date_to=2025-02-28' \
 --header 'Accept: application/json' \
 --header 'Authorization: Bearer {token}'
 ```
 
-- Register (it returns the token)
-```curl
+### User Registration 
+```shell
 curl --location 'http://localhost:9000/api/v1/register' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
@@ -89,8 +105,8 @@ curl --location 'http://localhost:9000/api/v1/register' \
 }'
 ```
 
-- Login (it returns the token)
-```curl
+### User Login (Returns Token)
+```shell
 curl --location 'http://localhost:9000/api/v1/login' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
@@ -101,49 +117,36 @@ curl --location 'http://localhost:9000/api/v1/login' \
 }'
 ```
 
-- User Profile
-```curl
+### Fetch User Profile
+```shell
 curl --location 'http://localhost:9000/api/v1/user' \
 --header 'Authorization: Bearer {token}'
 ```
 
-## Test
-the project has some couple of unit and feature tests, indeed it's not like the real project's test, but due to show the way of testing it can be useful, the tool which is used for write test is `phpunit`
-
-- You can run the tests by:
+## Running Tests
+The project includes unit and feature tests using PHPUnit.
+To run tests:
 ```shell
 docker-compose exec -it app php artisan migrate --env=testing
 docker-compose exec -it app php artisan test
 ```
 
 ## Architecture
+Khabarchin follows a structured architecture comprising two main components:
 
-The project has two abstract main component:
-- `FetchService`
-- `QueryService`
+### **FetchService**
+This component follows the **Strategy Pattern**. It consists of a base service responsible for executing fetching strategies, such as `GuardianFetchService`, which retrieves data from The Guardian. The retrieved data is then stored in the database using `newsRepository`.
 
-#### FetchService
-it's a service written in StrategyPattern in which there is a parent class that in charge of execute the strategy which is given like GuardianFetchService which is concrete service to fetch data from Guardian, then store it in database using `newsRepository`
+![Strategy Pattern](https://github.com/user-attachments/assets/b267a2a1-16fe-40a8-9d0a-5034ae5571bc)
 
-![strategypattern](https://github.com/user-attachments/assets/b267a2a1-16fe-40a8-9d0a-5034ae5571bc)
+### **QueryService**
+This component is responsible for querying and retrieving news data from the database for end-users.
 
+![Khabarchin Fetch Flow](https://github.com/user-attachments/assets/51647324-9840-4361-8508-8574719c4d43)
 
-
-#### QueryService
-it's another part of our application which is reponsible for read data from database and return to users.
-
-
-![Khabrchin Fetch Flow](https://github.com/user-attachments/assets/51647324-9840-4361-8508-8574719c4d43)
-
-
-
-
-
-
-
-## TODO
-- Adding pagination to getting all of the news from providers 
-- Implement better mechanisem to prevent store duplication, currently we are using unique constrained and insertOrIgnore method which ignores all exceptions.
-- Add elasticsearch to serve data for user since we have full text search
+## Roadmap & Future Improvements
+- Implement **pagination** when fetching news from providers.
+- Improve duplication prevention (currently using unique constraints and `insertOrIgnore` to bypass errors).
+- Integrate **Elasticsearch** to enhance full-text search capabilities.
 
 
