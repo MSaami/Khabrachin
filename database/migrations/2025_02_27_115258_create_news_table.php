@@ -23,9 +23,12 @@ return new class extends Migration
 
 
             //define full text index to search more efficient
-            $table->fullText('title');
-            $table->fullText('source');
-            $table->unique(['source', 'provider_id']);
+            //due to using test in sqlite we should ignore it, it has some better solution
+            if (config('database.default') !== 'sqlite') {
+                $table->fullText('title');
+                $table->fullText('source');
+                $table->unique(['source', 'provider_id']);
+            }
         });
     }
 

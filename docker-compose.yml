@@ -15,21 +15,14 @@ services:
       - app-network
     depends_on:
       - mysql
-    environment:
-      - DB_CONNECTION=mysql
-      - DB_HOST=mysql
-      - DB_PORT=3306
-      - DB_DATABASE=laravel
-      - DB_USERNAME=admin
-      - DB_PASSWORD=admin
 
   # MySQL 8 Service
   mysql:
     image: mysql:8
     container_name: khabarchin-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: teeeteetet
-      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: adminadmin
+      MYSQL_DATABASE: khabarchin
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     ports:

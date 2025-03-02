@@ -49,8 +49,16 @@ docker-compose exec -it app php artisan db:seed --class=ExampleUserSeeder
 ```
 - open `localhost:9000` in your browser and you should face with Laravel index page.
 
+
+
+## Update News Frequently
+
+
+
+
+
 ## Montoring
-To monitor our system we have a tools named Telescope which you can access it thorough `localhost:9000/telescope
+To monitor our system we have a tools named Telescope which you can access it thorough `localhost:9000/telescope`
 
 
 ## APIs
@@ -104,6 +112,7 @@ the project has some couple of unit and feature tests, indeed it's not like the 
 
 - You can run the tests by:
 ```shell
+docker-compose exec -it app php artisan migrate --env=testing
 docker-compose exec -it app php artisan test
 ```
 
@@ -125,6 +134,10 @@ it's another part of our application which is reponsible for read data from data
 
 
 ![Khabrchin Fetch Flow](https://github.com/user-attachments/assets/51647324-9840-4361-8508-8574719c4d43)
+
+
+
+
 
 
 
