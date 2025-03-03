@@ -5,7 +5,7 @@ Khabarchin is a news aggregation service that gathers articles from multiple new
 
 ## Tech Stack
 - **Docker Compose** (v3.8)
-- **PHP** (v8.3)
+- **PHP** (v8.2)
 - **Laravel** (v12)
 - **MySQL** (v8)
 
