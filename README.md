@@ -18,7 +18,7 @@ Ensure you have the following installed on your system:
 ### Setup
 1. Clone the repository:
    ```shell
-   git clone https://github.com/your-repo/khabarchin.git
+   git clone git@github.com:MSaami/Khabrachin.git
    cd khabarchin
    ```
 
