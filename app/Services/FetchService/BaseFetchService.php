@@ -4,7 +4,6 @@ namespace App\Services\FetchService;
 
 use App\Services\FetchService\DTO\NewsResponseDTO;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseFetchService implements INewsProvider
 {
@@ -21,6 +20,7 @@ abstract class BaseFetchService implements INewsProvider
             $dto->url = $item[static::MAP_KEYS['url']];
             $dto->published_at = Carbon::parse($item[static::class::MAP_KEYS['published_at']]);
             $dto->source = $this->config['name'];
+            $dto->author = data_get($item,  static::MAP_KEYS['author']);
             return $dto;
         }, $items);
     }

@@ -55,6 +55,14 @@ class News extends Model
         return $query;
     }
 
+    public function scopeAuthors(Builder $query, $authors)
+    {
+        if ($authors) {
+            return $query->whereIn('author', $authors);
+        }
+        return $query;
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

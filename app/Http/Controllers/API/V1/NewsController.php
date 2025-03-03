@@ -38,9 +38,11 @@ class NewsController extends Controller
             $dto->date_from = $request->date_from ? Carbon::parse($request->date_from) : null;
             $dto->date_to = $request->date_to ? Carbon::parse($request->date_to) : null;
             $dto->search = $request->search;
+            $dto->authors = $request->authors ? explode(',', $request->authors) : [];
         } else {
             $dto->categories = $request->user()->preferences?->category_ids;
             $dto->sources = $request->user()->preferences?->sources;
+            $dto->authors = $request->user()->preferences?->authors;
         }
 
 

@@ -37,7 +37,7 @@ class NewsRequestTest extends TestCase
         News::factory()->count(3)->create([
             'category_id' => $category2->id,
         ]);
-        
+
         $this->actingAs(User::factory()->create());
         $response = $this->get(route('news.index', ['categories' => $category1->id]));
 
@@ -74,5 +74,62 @@ class NewsRequestTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonCount(8, 'data');
     }
-}
 
+
+
+    public function testFetchNewsWithAuthorFilter()
+    {
+        $author1 = 'author1';
+        $author2 = 'author2';
+        $author3 = 'author3';
+
+        News::factory()->count(5)->create([
+            'author' => $author1,
+        ]);
+        News::factory()->count(3)->create([
+            'author' => $author2,
+        ]);
+        News::factory()->count(2)->create([
+            'author' => $author3,
+        ]);
+
+        $this->actingAs(User::factory()->create());
+        $response = $this->get(route('news.index', ['authors' => $author1]));
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(5, 'data');
+    }
+
+
+    //write test in which users selected some author in his prefrences and fetch news by it without any filters
+    public function testFetchNewsWithPreferencesAndAuthorFilter()
+    {
+        $author1 = 'author1';
+        $author2 = 'author2';
+        $author3 = 'author3';
+
+        News::factory()->count(5)->create([
+            'author' => $author1,
+        ]);
+        News::factory()->count(3)->create([
+            'author' => $author2,
+        ]);
+        News::factory()->count(2)->create([
+            'author' => $author3,
+        ]);
+
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        UserPreferences::create([
+            'user_id' => $user->id,
+            'authors' => [$author1],
+        ]);
+
+
+        $response = $this->get(route('news.index'));
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(5, 'data');
+    }
+}

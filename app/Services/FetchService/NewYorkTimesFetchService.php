@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\Http;
 class NewYorkTimesFetchService extends BaseFetchService
 {
 
-    const MAP_KEYS = [
+    public const MAP_KEYS = [
         'provider_id' => '_id',
         'title' => 'abstract',
         'url' => 'web_url',
-        'published_at' => 'pub_date'
+        'published_at' => 'pub_date',
+        'author' => 'byline.original.'
     ];
 
     public function __construct()

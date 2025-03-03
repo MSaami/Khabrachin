@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('title', 512);
             $table->string('provider_id');
             $table->foreignIdFor(\App\Models\Category::class)->constrained();
-            $table->char('source', '20');
+            $table->char('source', '20')->index();
             $table->string('url', 2048);
+            $table->string('author')->nullable()->index();
             $table->timestamp('published_at');
             $table->timestamps();
 
@@ -26,9 +27,8 @@ return new class extends Migration
             //due to using test in sqlite we should ignore it, it has some better solution
             if (config('database.default') !== 'sqlite') {
                 $table->fullText('title');
-                $table->fullText('source');
-                $table->unique(['source', 'provider_id']);
             }
+            $table->unique(['source', 'provider_id']);
         });
     }
 

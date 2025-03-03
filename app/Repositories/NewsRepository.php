@@ -16,6 +16,7 @@ class NewsRepository
             ->search($newsfilterDTO->search)
             ->dateFrom($newsfilterDTO->date_from)
             ->dateTo($newsfilterDTO->date_to)
+            ->authors($newsfilterDTO->authors)
             ->orderBy('published_at', 'desc')
             ->paginate();
     }
@@ -40,6 +41,7 @@ class NewsRepository
                 'published_at' => $item->published_at,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'author' => $item->author
             ];
         }, $news);
 

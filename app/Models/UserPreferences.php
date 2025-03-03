@@ -13,11 +13,13 @@ class UserPreferences extends Model
         'user_id',
         'category_ids',
         'sources',
+        'authors'
     ];
 
     protected $casts = [
         'category_ids' => 'array',
         'sources' => 'array',
+        'authors' => 'array'
     ];
 
     public function user()

@@ -148,5 +148,6 @@ This component is responsible for querying and retrieving news data from the dat
 - Implement **pagination** when fetching news from providers.
 - Improve duplication prevention (currently using unique constraints and `insertOrIgnore` to bypass errors).
 - Integrate **Elasticsearch** to enhance full-text search capabilities.
+- Implement a Log system to determine number of the news fetched from each provider.
 
 

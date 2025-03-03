@@ -2,18 +2,18 @@
 
 namespace App\Services\FetchService;
 
-use App\Models\Source;
 use App\Services\FetchService\DTO\FetchRequestDTO;
 use Illuminate\Support\Facades\Http;
 
 class GuardianFetchService extends BaseFetchService
 {
 
-    const MAP_KEYS = [
+    public const MAP_KEYS = [
         'provider_id' => 'id',
         'title' => 'webTitle',
         'url' => 'webUrl',
         'published_at' => 'webPublicationDate',
+        'author' => 'fields.byline'
     ];
 
     public function __construct()
@@ -28,6 +28,7 @@ class GuardianFetchService extends BaseFetchService
             'section' => $fetchRequestDTO->category_name,
             'from-date' => $fetchRequestDTO->from_date_time->toIso8601String(),
             'page-size' => $this->defaultPageSize,
+            'show-fields' => 'byline'
         ]);
 
         if (!$response->successful()) {

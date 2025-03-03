@@ -22,11 +22,12 @@ class NewsApiFetchService extends BaseFetchService
     ];
 
 
-    protected const MAP_KEYS = [
+   public const MAP_KEYS = [
         'provider_id' => 'uri',
         'title' => 'title',
         'url' => 'url',
         'published_at' => 'dateTimePub',
+        'author' => 'authors.{first}.name'
     ];
 
 

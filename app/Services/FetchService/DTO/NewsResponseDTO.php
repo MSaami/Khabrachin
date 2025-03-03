@@ -12,6 +12,7 @@ class NewsResponseDTO
     public string $source;
     public string $provider_id;
     public Carbon $published_at;
+    public ?string $author = null;
 
     public function getArray(): array
     {
