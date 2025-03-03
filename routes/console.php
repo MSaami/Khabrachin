@@ -21,4 +21,4 @@ $serviceNewsApi = new NewsFetchService(new NewsApiFetchService());
 Schedule::job(new FetchNewsJob($serviceNewsApi))->everyTenSeconds();
 
 $serviceNewYorkTimes = new NewsFetchService(new NewYorkTimesFetchService());
-Schedule::job(new FetchNewsJob($serviceNewYorkTimes))->everyTenSeconds();
+Schedule::job(new FetchNewsJob($serviceNewYorkTimes))->everyMinute();
