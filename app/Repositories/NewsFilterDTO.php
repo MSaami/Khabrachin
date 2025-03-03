@@ -12,4 +12,6 @@ class NewsFilterDTO extends GeneralDTO
     public ?DateTime $date_from = null;
     public ?DateTime $date_to = null;
     public ?array $authors = null;
+    public ?string $order_by = 'published_at';
+    public string $order_direction = 'desc';
 }

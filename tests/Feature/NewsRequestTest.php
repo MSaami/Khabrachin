@@ -13,6 +13,16 @@ class NewsRequestTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
+
     /**
      * A basic feature test example.
      */
@@ -20,7 +30,6 @@ class NewsRequestTest extends TestCase
     {
         News::factory()->count(10)->create();
         $user = User::factory()->create();
-        $this->actingAs($user);
         $response = $this->get(route('news.index'));
 
         $response->assertStatus(200);
@@ -38,7 +47,6 @@ class NewsRequestTest extends TestCase
             'category_id' => $category2->id,
         ]);
 
-        $this->actingAs(User::factory()->create());
         $response = $this->get(route('news.index', ['categories' => $category1->id]));
 
         $response->assertStatus(200);
@@ -61,14 +69,12 @@ class NewsRequestTest extends TestCase
             'category_id' => $category3->id,
         ]);
 
-        $user = User::factory()->create();
         UserPreferences::create([
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'category_ids' => [$category1->id, $category2->id],
         ]);
 
 
-        $this->actingAs($user);
         $response = $this->get(route('news.index'));
 
         $response->assertStatus(200);
@@ -93,7 +99,6 @@ class NewsRequestTest extends TestCase
             'author' => $author3,
         ]);
 
-        $this->actingAs(User::factory()->create());
         $response = $this->get(route('news.index', ['authors' => $author1]));
 
         $response->assertStatus(200);
@@ -104,26 +109,20 @@ class NewsRequestTest extends TestCase
     //write test in which users selected some author in his prefrences and fetch news by it without any filters
     public function testFetchNewsWithPreferencesAndAuthorFilter()
     {
-        $author1 = 'author1';
-        $author2 = 'author2';
-        $author3 = 'author3';
-
         News::factory()->count(5)->create([
-            'author' => $author1,
+            'author' => 'author1',
         ]);
         News::factory()->count(3)->create([
-            'author' => $author2,
+            'author' => 'author2',
         ]);
         News::factory()->count(2)->create([
-            'author' => $author3,
+            'author' => 'author3'
         ]);
 
-        $user = User::factory()->create();
-        $this->actingAs($user);
 
         UserPreferences::create([
-            'user_id' => $user->id,
-            'authors' => [$author1],
+            'user_id' => $this->user->id,
+            'authors' => ['author1'],
         ]);
 
 

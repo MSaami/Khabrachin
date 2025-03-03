@@ -11,6 +11,13 @@ class News extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public const ORDERABLE_FIELDS = [
+        'title',
+        'published_at',
+        'author',
+        'source'
+    ];
+
     protected $casts = [
         'published_at' => 'datetime',
     ];

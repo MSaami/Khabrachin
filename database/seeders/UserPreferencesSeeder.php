@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Category;
-use App\Models\Source;
 use App\Models\UserPreferences;
 use Illuminate\Database\Seeder;
 

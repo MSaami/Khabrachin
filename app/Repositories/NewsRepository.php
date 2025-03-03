@@ -17,7 +17,7 @@ class NewsRepository
             ->dateFrom($newsfilterDTO->date_from)
             ->dateTo($newsfilterDTO->date_to)
             ->authors($newsfilterDTO->authors)
-            ->orderBy('published_at', 'desc')
+            ->orderBy($newsfilterDTO->order_by, $newsfilterDTO->order_direction)
             ->paginate();
     }
 
